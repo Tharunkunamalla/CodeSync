@@ -3,6 +3,7 @@ import toast from 'react-hot-toast';
 import ACTIONS from '../Actions';
 import Client from '../components/Client';
 import Editor from '../components/Editor';
+import Output from '../components/Output';
 import { initSocket } from '../socket';
 import {
     useLocation,
@@ -14,10 +15,27 @@ import {
 const EditorPage = () => {
     const socketRef = useRef(null);
     const codeRef = useRef(null);
+    const editorRef = useRef(null); // Reference to the actual Monaco editor instance? No, passed down to Editor component which passes it back?
+    // Actually, Editor component has the ref internally. We need access to it in Output or lift the state up.
+    // Better: Pass a ref from here to Editor, and also pass that ref to Output? 
+    // Or just state. Let's use a ref passed to Editor.
+
     const location = useLocation();
     const { roomId } = useParams();
     const reactNavigator = useNavigate();
     const [clients, setClients] = useState([]);
+
+    // We need the editor instance to get value in Output component, 
+    // OR we just rely on codeRef.current which is updated on change.
+    // But Output needs to send code. codeRef.current is the latest code.
+    // However, Output might want to run code. valid point.
+    // Let's pass a function to getCode or just use codeRef.
+    
+    // We need to pass the code to Output to run.
+    // Since codeRef.current is updated on change, we can use that.
+    
+    // But we need the language too. For now hardcode or add selector.
+    const [language, setLanguage] = useState('javascript');
 
     useEffect(() => {
         const init = async () => {
@@ -67,9 +85,11 @@ const EditorPage = () => {
         };
         init();
         return () => {
-            socketRef.current.disconnect();
-            socketRef.current.off(ACTIONS.JOINED);
-            socketRef.current.off(ACTIONS.DISCONNECTED);
+            if(socketRef.current) {
+                socketRef.current.disconnect();
+                socketRef.current.off(ACTIONS.JOINED);
+                socketRef.current.off(ACTIONS.DISCONNECTED);
+            }
         };
     }, []);
 
@@ -130,6 +150,10 @@ const EditorPage = () => {
                             code,
                         });
                     }}
+                />
+                <Output 
+                    editorRef={{ current: { getValue: () => codeRef.current } }} // Mocking editor ref for Output
+                    language={language}
                 />
             </div>
         </div>

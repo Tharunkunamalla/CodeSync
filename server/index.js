@@ -6,6 +6,7 @@ const ACTIONS = require('./Actions');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
+const Room = require('./models/Room');
 
 dotenv.config();
 
@@ -42,10 +43,27 @@ function getAllConnectedClients(roomId) {
 io.on('connection', (socket) => {
     console.log('socket connected', socket.id);
 
-    socket.on(ACTIONS.JOIN, ({ roomId, username }) => {
+    socket.on(ACTIONS.JOIN, async ({ roomId, username }) => {
         userSocketMap[socket.id] = username;
         socket.join(roomId);
+
+        // Check if room exists in DB and load code if room is empty in memory (first user)
         const clients = getAllConnectedClients(roomId);
+        // If only 1 client (self), load from DB
+        if (clients.length === 1) {
+            try {
+                let room = await Room.findOne({ roomId });
+                if (room) {
+                    io.to(roomId).emit(ACTIONS.CODE_CHANGE, { code: room.code });
+                } else {
+                    // Create new room in DB if not exists
+                    await Room.create({ roomId, code: '' });
+                }
+            } catch (err) {
+                console.error("Error loading room from DB:", err);
+            }
+        }
+
         clients.forEach(({ socketId }) => {
             io.to(socketId).emit(ACTIONS.JOINED, {
                 clients,
@@ -55,8 +73,14 @@ io.on('connection', (socket) => {
         });
     });
 
-    socket.on(ACTIONS.CODE_CHANGE, ({ roomId, code }) => {
+    socket.on(ACTIONS.CODE_CHANGE, async ({ roomId, code }) => {
         socket.in(roomId).emit(ACTIONS.CODE_CHANGE, { code });
+        // Save to DB (Fire and forget or debounced in real app)
+        try {
+            await Room.findOneAndUpdate({ roomId }, { code }, { upsert: true });
+        } catch (err) {
+            console.error("Error saving code to DB:", err);
+        }
     });
 
     socket.on(ACTIONS.SYNC_CODE, ({ socketId, code }) => {
