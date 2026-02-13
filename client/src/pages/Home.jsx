@@ -84,6 +84,7 @@ const Home = () => {
             </div>
             <footer>
             <footer>
+                <h4>Developed by &nbsp;</h4>
                 <a
                     href="https://github.com/Tharunkunamalla"
                     target="_blank"

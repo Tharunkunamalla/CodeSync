@@ -37,6 +37,15 @@ body {
 footer {
     position: fixed;
     bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+footer h4 {
+    margin: 0;
+    color: #eee;
+    font-size: 16px;
 }
 
 .footerLink {
@@ -52,6 +61,8 @@ footer {
 
 .footerLink:hover {
     color: #36b366;
+    transform: scale(1.05); /* Slight grow */
+    text-shadow: 0 0 10px rgba(74, 237, 136, 0.5);
 }
 
 .footerLogo {
@@ -64,6 +75,8 @@ footer {
 
 .footerLink:hover .footerLogo {
     border-color: #36b366;
+    transform: rotate(360deg); /* Spin on hover */
+    box-shadow: 0 0 15px rgba(74, 237, 136, 0.6);
 }
 
 .inputGroup {
