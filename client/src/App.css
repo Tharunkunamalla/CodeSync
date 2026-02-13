@@ -113,83 +113,7 @@ footer a:hover {
     height: 100vh;
 }
 
-@media (max-width: 768px) {
-    .mainWrap {
-        display: flex;
-        flex-direction: column;
-        height: 100dvh;
-        overflow: hidden;
-    }
-    
-    .aside {
-        display: flex;
-        flex-direction: row;
-        width: 100%;
-        height: auto;
-        min-height: 60px;
-        border-right: none;
-        border-bottom: 1px solid #424242;
-        padding: 5px 10px;
-        align-items: center;
-        gap: 10px;
-        overflow-x: auto;
-        background: #1c1e29;
-        flex-shrink: 0;
-    }
-    
-    .asideInner {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 15px;
-        flex: 1;
-        overflow: visible;
-    }
-    
-    .logo {
-        border-bottom: none;
-        margin-bottom: 0;
-        padding-bottom: 0;
-        margin-right: 10px;
-    }
-    
-    .logoImage {
-        height: 35px;
-    }
-    
-    .clientsList {
-        margin-top: 0;
-        gap: 10px;
-        flex-wrap: nowrap;
-    }
-    
-    .userName {
-        display: none;
-    }
-    
-    .languageSelector {
-        margin-bottom: 0;
-        min-width: 80px;
-    }
-    
-    .langSelect {
-        margin-top: 0;
-        margin-bottom: 0;
-        padding: 5px;
-        height: 30px;
-    }
-    
-    .copyBtn, .leaveBtn {
-        margin-top: 0;
-        width: auto;
-        padding: 5px 10px;
-        font-size: 12px;
-    }
-    
-    .waitingForInfo {
-        display: none;
-    }
-}
+/* Moved media queries to the end of the file */
 
 .aside {
     background: #1c1e29;
@@ -269,34 +193,7 @@ footer a:hover {
 
 /* For mobile/responsive, stack output below editor if needed */
 /* For mobile/responsive, stack output below editor if needed */
-@media (max-width: 768px) {
-    .editorWrap {
-        display: flex;
-        flex-direction: column;
-        grid-template-columns: none;
-        grid-template-rows: none;
-        flex: 1;
-        overflow: hidden;
-    }
-
-    /* We need to target the children of editorWrap to split vertical space */
-    /* Since Editor and Output are direct children, we can use :nth-child or classes if they had them on outside div */
-    /* But Editor component returns a div, Output returns a div. */
-    
-    .editorWrap > div:first-child { 
-        /* The Editor component wrapper */
-        height: 60% !important; /* Force height */
-        flex: none;
-    }
-
-    .outputParams {
-        border-left: none;
-        border-top: 1px solid #424242;
-        height: 40% !important; /* Force height */
-        flex: none;
-        width: 100%;
-    }
-}
+/* Moved media queries to the end of the file */
 
 /* Output Component Styling */
 .outputParams {
@@ -380,4 +277,109 @@ footer a:hover {
     text-align: center;
     font-size: 14px;
     color: #aaa;
+}
+
+/* Consolidated Media Query for Mobile */
+@media (max-width: 768px) {
+    .mainWrap {
+        display: flex;
+        flex-direction: column;
+        height: 100dvh;
+        overflow: hidden;
+    }
+    
+    .aside {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: auto;
+        min-height: 60px;
+        border-right: none;
+        border-bottom: 1px solid #424242;
+        padding: 5px 10px;
+        align-items: center;
+        gap: 10px;
+        overflow-x: auto;
+        background: #1c1e29;
+        flex-shrink: 0;
+    }
+    
+    .asideInner {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 15px;
+        flex: 1;
+        overflow: visible;
+    }
+    
+    .logo {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+        margin-right: 10px;
+    }
+    
+    .logoImage {
+        height: 35px;
+    }
+    
+    .clientsList {
+        margin-top: 0;
+        gap: 10px;
+        flex-wrap: nowrap;
+    }
+    
+    .userName {
+        display: none;
+    }
+    
+    .languageSelector {
+        margin-bottom: 0;
+        min-width: 100px;
+    }
+    
+    .langSelect {
+        margin-top: 0;
+        margin-bottom: 0;
+        padding: 5px;
+        height: auto;
+        font-size: 14px;
+        background-color: #282a36;
+        color: #fff;
+    }
+    
+    .copyBtn, .leaveBtn {
+        margin-top: 0;
+        width: auto !important;
+        padding: 5px 10px;
+        font-size: 12px;
+        white-space: nowrap;
+    }
+    
+    .waitingForInfo {
+        display: none;
+    }
+
+    .editorWrap {
+        display: flex;
+        flex-direction: column;
+        grid-template-columns: none;
+        grid-template-rows: none;
+        flex: 1;
+        overflow: hidden;
+    }
+
+    .editorWrap > div:first-child { 
+        height: 60% !important; 
+        flex: none;
+    }
+
+    .outputParams {
+        border-left: none;
+        border-top: 1px solid #424242;
+        height: 40% !important;
+        flex: none;
+        width: 100%;
+    }
 }
