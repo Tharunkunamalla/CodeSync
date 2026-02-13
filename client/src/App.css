@@ -75,7 +75,6 @@ footer h4 {
 
 .footerLink:hover .footerLogo {
     border-color: #36b366;
-    transform: rotate(360deg); /* Spin on hover */
     box-shadow: 0 0 15px rgba(74, 237, 136, 0.6);
 }
 
