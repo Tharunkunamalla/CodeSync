@@ -83,10 +83,21 @@ const Home = () => {
                 </div>
             </div>
             <footer>
-                <h4>
-                    Built with 💛 by &nbsp;
-                    <a href="https://github.com/kunam" target="_blank">Kunam</a>
-                </h4>
+            <footer>
+                <a
+                    href="https://github.com/Tharunkunamalla"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="footerLink"
+                >
+                    <img
+                        src="https://github.com/Tharunkunamalla.png"
+                        alt="Tharunkunamalla"
+                        className="footerLogo"
+                    />
+                    <span>Tharunkunamalla</span>
+                </a>
+            </footer>
             </footer>
         </div>
     );

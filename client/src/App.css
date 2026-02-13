@@ -39,15 +39,30 @@ footer {
     bottom: 20px;
 }
 
-footer a {
+.footerLink {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     color: #4aed88;
     text-decoration: none;
-    border-bottom: 1px solid #4aed88;
+    font-weight: bold;
+    font-size: 16px;
     transition: all 0.3s ease;
 }
 
-footer a:hover {
+.footerLink:hover {
     color: #36b366;
+}
+
+.footerLogo {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: 2px solid #4aed88;
+    transition: all 0.3s ease;
+}
+
+.footerLink:hover .footerLogo {
     border-color: #36b366;
 }
 
