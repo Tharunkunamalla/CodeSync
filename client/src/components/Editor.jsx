@@ -89,8 +89,9 @@ const Editor = ({ socketRef, roomId, onCodeChange, language }) => {
         const socket = socketRef.current;
         if (socket) {
             socket.on(ACTIONS.CODE_CHANGE, ({ code, cursor: senderCursor, socketId: senderSocketId, username: senderUsername }) => {
-                if (!editorRef.current) return;
-                const currentCode = editorRef.current.getValue();
+                try {
+                    if (!editorRef.current) return;
+                    const currentCode = editorRef.current.getValue();
                 if (code !== currentCode) {
                     editorRef.current.setValue(code);
                     
@@ -131,6 +132,9 @@ const Editor = ({ socketRef, roomId, onCodeChange, language }) => {
                              console.error("Re-apply cursor failed", e);
                          }
                     });
+                }
+                } catch (e) {
+                    console.error("CODE_CHANGE error:", e);
                 }
             });
 
