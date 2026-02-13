@@ -130,6 +130,11 @@ footer a:hover {
     display: none;
 }
 
+/* Close Menu Button (Hidden on Desktop) */
+.closeMenuBtn {
+    display: none !important;
+}
+
 .aside {
     background: #1c1e29;
     padding: 16px;
@@ -341,11 +346,11 @@ footer a:hover {
         min-height: 50px;
         border-right: none;
         border-bottom: 1px solid #424242;
-        padding: 5px 10px;
+        padding: 5px 20px; /* Increased side padding again */
         align-items: center;
         justify-content: space-between;
-        gap: 5px;
-        overflow-x: auto; /* Restored scroll to prevent clipping */
+        gap: 15px; /* Increased gap */
+        overflow-x: visible; /* No scroll needed if we fit everything */
         background: #1c1e29;
         flex-shrink: 0;
     }
@@ -398,6 +403,7 @@ footer a:hover {
     }
     
     .closeMenuBtn {
+        display: block; /* Show on mobile */
         position: absolute;
         top: 10px;
         right: 10px;
@@ -433,7 +439,7 @@ footer a:hover {
 
     .copyBtn {
         width: 100% !important;
-        margin-top: auto;
+        margin-top: 20px; /* Sits closer to content, not at bottom */
         font-size: 14px;
         height: 40px;
     }
