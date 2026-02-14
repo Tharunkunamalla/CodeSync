@@ -675,4 +675,10 @@ footer h4 {
         flex-wrap: wrap;
         gap: 5px;
     }
+
+    .dropdownMenu {
+        bottom: auto;
+        top: 100%;
+        margin-top: 5px;
+    }
 }
