@@ -257,10 +257,26 @@ footer h4 {
 }
 
 .editorWrap {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 300px; /* Editor | Output */
+    display: flex;
+    flex-direction: row;
     background: #282a36;
     height: 100vh;
+    overflow: hidden;
+}
+
+.resizer {
+    width: 6px;
+    background: #1b1a1a;
+    cursor: col-resize;
+    transition: background 0.2s;
+    height: 100%;
+    z-index: 10;
+    border-left: 1px solid #333;
+    border-right: 1px solid #333;
+}
+
+.resizer:hover {
+    background: #4aed88;
 }
 
 /* For mobile/responsive, stack output below editor if needed */
@@ -269,7 +285,7 @@ footer h4 {
 
 /* Output Component Styling */
 .outputParams {
-    background: #1e1e1e; /* VS Code dark background */
+    background: #0e0d0d; /* VS Code dark background */
     display: flex;
     flex-direction: column;
     padding: 10px;

@@ -166,6 +166,36 @@ const EditorPage = () => {
     const uniqueClients = Array.from(new Set(clients.map(c => c.username)))
     .map(username => clients.find(c => c.username === username));
 
+    const [outputWidth, setOutputWidth] = useState(300);
+    const isDragging = useRef(false);
+
+    const startResizing = (mouseDownEvent) => {
+        isDragging.current = true;
+    };
+
+    const stopResizing = () => {
+        isDragging.current = false;
+    };
+
+    const resize = (mouseMoveEvent) => {
+        if (isDragging.current) {
+            // Calculate new width from the right edge of the screen
+            const newWidth = window.innerWidth - mouseMoveEvent.clientX;
+            if (newWidth > 100 && newWidth < window.innerWidth * 0.8) {
+                 setOutputWidth(newWidth);
+            }
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener("mousemove", resize);
+        window.addEventListener("mouseup", stopResizing);
+        return () => {
+            window.removeEventListener("mousemove", resize);
+            window.removeEventListener("mouseup", stopResizing);
+        };
+    }, []);
+
     return (
         <div className="mainWrap">
             <div className="aside">
@@ -198,10 +228,10 @@ const EditorPage = () => {
                         </>
                     )}
                     {uniqueClients.length <= 1 && (
-                         <div className="waitingForInfo">
-                            <p>Waiting for others to join...</p>
-                         </div>
-                    )}
+                        <div className="waitingForInfo">
+                           <p>Waiting for others to join...</p>
+                        </div>
+                   )}
                     <button className="btn copyBtn" onClick={copyRoomId}>
                         Copy ROOM ID
                     </button>
@@ -239,23 +269,31 @@ const EditorPage = () => {
                 </div>
             </div>
             <div className="editorWrap">
-                <Editor
-                    socketRef={socketRef}
-                    roomId={roomId}
-                    onCodeChange={(code, cursor) => {
-                        codeRef.current = code;
-                        socketRef.current.emit(ACTIONS.CODE_CHANGE, {
-                            roomId,
-                            code,
-                            cursor,
-                        });
-                    }}
-                    language={language}
+                <div className="editorContainer" style={{ flex: 1, overflow: 'hidden' }}>
+                    <Editor
+                        socketRef={socketRef}
+                        roomId={roomId}
+                        onCodeChange={(code, cursor) => {
+                            codeRef.current = code;
+                            socketRef.current.emit(ACTIONS.CODE_CHANGE, {
+                                roomId,
+                                code,
+                                cursor,
+                            });
+                        }}
+                        language={language}
+                    />
+                </div>
+                <div
+                    className="resizer"
+                    onMouseDown={startResizing}
                 />
-                <Output 
-                    editorRef={{ current: { getValue: () => codeRef.current } }} // Mocking editor ref for Output
-                    language={language}
-                />
+                <div className="outputContainer" style={{ width: outputWidth, overflow: 'hidden' }}>
+                    <Output 
+                        editorRef={{ current: { getValue: () => codeRef.current } }} 
+                        language={language}
+                    />
+                </div>
             </div>
         </div>
     );
