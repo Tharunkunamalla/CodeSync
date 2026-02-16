@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  server:
+    build: ./server
+    container_name: codesync-server
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/codesync
+    depends_on:
+      - mongo
+    restart: always
+
+  client:
+    build: ./client
+    container_name: codesync-client
+    ports:
+      - "5173:80"
+    depends_on:
+      - server
+    restart: always
+
+  mongo:
+    image: mongo:latest
+    container_name: codesync-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    restart: always
+
+volumes:
+  mongo-data:

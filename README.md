@@ -51,6 +51,8 @@ real-time-code-editor/
 │   └── package.json        # Server dependencies
 │
 └── PROJECT_OVERVIEW.md     # Detailed project documentation
+├── docker-compose.yml      # Docker orchestration
+└── README.md               # This file
 ```
 
 ## ⚡ Getting Started
@@ -107,6 +109,19 @@ real-time-code-editor/
     ```
 
 3.  **Open your browser** and navigate to the client URL. Create a room and start coding!
+
+## 🐳 Docker Setup
+
+Run the entire stack (Client, Server, MongoDB) with a single command.
+
+1.  **Start the application:**
+    ```bash
+    docker-compose up --build
+    ```
+
+2.  **Access the app:**
+    -   Frontend: `http://localhost:5173`
+    -   Backend API: `http://localhost:5000`
 
 ## 🤝 Contributing
 
