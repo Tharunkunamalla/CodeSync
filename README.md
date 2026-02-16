@@ -119,7 +119,8 @@ Run the entire stack (Client, Server, MongoDB) with a single command.
     ```bash
     docker-compose up --build
     ```
-    OR
+
+OR
     -   **Start the containers:**
     ```bash
     docker-compose up 
