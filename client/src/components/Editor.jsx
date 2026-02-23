@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Editor as MonacoEditor } from '@monaco-editor/react'; // Alias to avoid conflict if any, though not needed here
 import ACTIONS from '../Actions';
 
-const Editor = ({ socketRef, roomId, onCodeChange, language }) => {
+const Editor = ({ socketRef, roomId, onCodeChange, onEditorClick, language }) => {
     const editorRef = useRef(null);
     const monacoRef = useRef(null);
     const cursorsRef = useRef({}); // Stores decoration IDs per socketId
@@ -21,6 +21,10 @@ const Editor = ({ socketRef, roomId, onCodeChange, language }) => {
             document.head.appendChild(style);
             styleElementRef.current = style;
         }
+
+        editor.onMouseDown(() => {
+            if (onEditorClick) onEditorClick();
+        });
         
         editor.onDidChangeModelContent((event) => {
              if (isRemoteUpdate.current) return;

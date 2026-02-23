@@ -755,3 +755,172 @@ footer h4 {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+/* About Modal Styling */
+.aboutModalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 5000;
+    animation: fadeIn 0.3s ease;
+}
+
+.aboutModal {
+    position: relative;
+    width: 600px;
+    max-width: 90%;
+    background: rgba(28, 30, 41, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.125);
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+    overflow: hidden;
+    animation: scaleUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes scaleUp {
+    from { opacity: 0; transform: scale(0.8) translateY(20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.smokyBackground {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center, rgba(74, 237, 136, 0.08) 0%, transparent 70%),
+                radial-gradient(circle at 30% 30%, rgba(147, 51, 234, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 70% 70%, rgba(59, 130, 246, 0.05) 0%, transparent 50%);
+    animation: smokeShift 15s linear infinite;
+    z-index: 0;
+    pointer-events: none;
+}
+
+@keyframes smokeShift {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.aboutContent {
+    position: relative;
+    z-index: 1;
+}
+
+.aboutTitle {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    background: linear-gradient(to right, #4aed88, #3b82f6);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.aboutDesc {
+    color: #a1a1aa;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    font-size: 16px;
+}
+
+.rulesSection {
+    margin-bottom: 30px;
+}
+
+.sectionTitle {
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.rulesList {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.ruleItem {
+    display: flex;
+    gap: 15px;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.ruleItem:hover {
+    transform: translateX(5px);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.ruleIcon {
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.ruleText {
+    font-size: 14px;
+    color: #d4d4d8;
+    line-height: 1.5;
+}
+
+.ruleText strong {
+    color: #4aed88;
+}
+
+.aboutFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 20px;
+}
+
+.versionTag {
+    font-size: 12px;
+    color: #71717a;
+    font-family: monospace;
+}
+
+.gotItBtn {
+    background: #4aed88;
+    color: #000;
+    padding: 12px 30px;
+}
+
+.closeAboutBtn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: #71717a;
+    font-size: 28px;
+    cursor: pointer;
+    transition: color 0.2s;
+    z-index: 10;
+}
+
+.closeAboutBtn:hover {
+    color: #fff;
+}
+
+/* Run Button Loading/Remote Typing state */
+.runBtn.loading {
+    background: #27272a;
+    color: #71717a;
+    box-shadow: none;
+}

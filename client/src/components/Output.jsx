@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 
-const Output = ({ editorRef, language }) => {
+const Output = ({ editorRef, language, isRemoteTyping }) => {
   const [output, setOutput] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -46,11 +46,12 @@ const Output = ({ editorRef, language }) => {
             Clear
             </button>
             <button 
-                className={`btn runBtn ${isLoading ? 'loading' : ''}`} 
-                disabled={isLoading} 
+                className={`btn runBtn ${isLoading || isRemoteTyping ? 'loading' : ''}`} 
+                disabled={isLoading || isRemoteTyping} 
                 onClick={runCode}
+                title={isRemoteTyping ? "Someone is typing! Click editor to unlock." : "Run Code"}
             >
-            {isLoading ? 'Running...' : 'Run Code'}
+            {isLoading ? 'Running...' : (isRemoteTyping ? 'Remote Typing...' : 'Run Code')}
             </button>
         </div>
       </div>

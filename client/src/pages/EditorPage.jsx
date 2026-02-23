@@ -41,7 +41,10 @@ const EditorPage = () => {
     const [socketInitialized, setSocketInitialized] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isLangOpen, setIsLangOpen] = useState(false);
+    const [isAboutOpen, setIsAboutOpen] = useState(false);
+    const [isRemoteTyping, setIsRemoteTyping] = useState(false);
     const langMenuRef = useRef(null);
+    const remoteTypingTimeoutRef = useRef(null);
 
     const toggleMobileMenu = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -115,6 +118,19 @@ const EditorPage = () => {
                 }
             );
 
+            // Listening for code change to track remote typing
+            socketRef.current.on(ACTIONS.CODE_CHANGE, ({ socketId }) => {
+                if (socketId !== socketRef.current.id) {
+                    setIsRemoteTyping(true);
+                    
+                    // Optional: Reset after 3 seconds of inactivity if they don't click
+                    if (remoteTypingTimeoutRef.current) clearTimeout(remoteTypingTimeoutRef.current);
+                    remoteTypingTimeoutRef.current = setTimeout(() => {
+                        setIsRemoteTyping(false);
+                    }, 5000);
+                }
+            });
+
             // Listening for language change
             socketRef.current.on(ACTIONS.LANGUAGE_CHANGE, ({ language }) => {
                 setLanguage(language);
@@ -159,6 +175,11 @@ const EditorPage = () => {
     function leaveRoom() {
         reactNavigator('/');
     }
+
+    const handleEditorClick = () => {
+        setIsRemoteTyping(false);
+        if (remoteTypingTimeoutRef.current) clearTimeout(remoteTypingTimeoutRef.current);
+    };
 
     if (!location.state) {
         return <Navigate to="/" state={{ roomId }} />;
@@ -292,8 +313,68 @@ const EditorPage = () => {
                     <button className="btn leaveBtn" onClick={leaveRoom}>
                         Leave
                     </button>
+                    <button 
+                        className="btn aboutBtn" 
+                        onClick={() => setIsAboutOpen(true)}
+                        style={{ marginTop: '10px', background: 'rgba(255,255,255,0.1)', color: '#fff' }}
+                    >
+                        About & Rules
+                    </button>
                 </div>
             </div>
+
+            {/* About Modal */}
+            {isAboutOpen && (
+                <div className="aboutModalOverlay" onClick={() => setIsAboutOpen(false)}>
+                    <div className="aboutModal" onClick={(e) => e.stopPropagation()}>
+                        <div className="smokyBackground"></div>
+                        <button className="closeAboutBtn" onClick={() => setIsAboutOpen(false)}>&times;</button>
+                        <div className="aboutContent">
+                            <h2 className="aboutTitle">About Code Sync</h2>
+                            <p className="aboutDesc">
+                                A real-time collaborative code editor designed for pair programming and technical interviews. 
+                                Experience seamless synchronization with high-performance execution.
+                            </p>
+                            
+                            <div className="rulesSection">
+                                <h3 className="sectionTitle">Collaboration Rules</h3>
+                                <ul className="rulesList">
+                                    <li className="ruleItem">
+                                        <div className="ruleIcon">⌨️</div>
+                                        <div className="ruleText">
+                                            <strong>Simultaneous Editing:</strong> Multiple users can type at once. Remote cursors show you exactly where others are working.
+                                        </div>
+                                    </li>
+                                    <li className="ruleItem">
+                                        <div className="ruleIcon">🔒</div>
+                                        <div className="ruleText">
+                                            <strong>Run Protection:</strong> If a collaborator is typing, the "Run Code" button will be locked for others to prevent executing incomplete logic.
+                                        </div>
+                                    </li>
+                                    <li className="ruleItem">
+                                        <div className="ruleIcon">🖱️</div>
+                                        <div className="ruleText">
+                                            <strong>Activate Run:</strong> To unlock the "Run Code" button while someone is typing, you must <strong>click anywhere inside the editor</strong> to confirm you are focused on the current state.
+                                        </div>
+                                    </li>
+                                    <li className="ruleItem">
+                                        <div className="ruleIcon">🚀</div>
+                                        <div className="ruleText">
+                                            <strong>Instant Broadcast:</strong> Language changes and code updates are broadcasted to all room participants immediately.
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div className="aboutFooter">
+                                <span className="versionTag">v1.2.0 Stable</span>
+                                <button className="btn gotItBtn" onClick={() => setIsAboutOpen(false)}>Got It!</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             <div className="editorWrap">
                 <div className="editorContainer" style={{ flex: 1, overflow: 'hidden' }}>
                     <Editor
@@ -307,6 +388,7 @@ const EditorPage = () => {
                                 cursor,
                             });
                         }}
+                        onEditorClick={handleEditorClick}
                         language={language}
                     />
                 </div>
@@ -318,6 +400,7 @@ const EditorPage = () => {
                     <Output 
                         editorRef={{ current: { getValue: () => codeRef.current } }} 
                         language={language}
+                        isRemoteTyping={isRemoteTyping}
                     />
                 </div>
             </div>
