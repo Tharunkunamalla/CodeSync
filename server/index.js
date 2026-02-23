@@ -25,6 +25,7 @@ app.use(express.json());
 app.use(cors());
 
 // Health Check / Wake up route
+app.get('/', (req, res) => res.send('Server is up and running!'));
 app.get('/ping', (req, res) => res.send('pong'));
 
 // Database Connection
