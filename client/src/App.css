@@ -236,6 +236,52 @@ footer h4 {
     object-fit: contain;
 }
 
+.currentUserSection {
+    padding: 10px 0 20px 0;
+    border-bottom: 1px solid #424242;
+    margin-bottom: 20px;
+}
+
+.currentUserInfo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(74, 237, 136, 0.05);
+    padding: 10px;
+    border-radius: 12px;
+    border: 1px solid rgba(74, 237, 136, 0.1);
+    transition: all 0.3s ease;
+}
+
+.currentUserInfo:hover {
+    background: rgba(74, 237, 136, 0.08);
+    border-color: rgba(74, 237, 136, 0.3);
+}
+
+.userDetails {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.userLabel {
+    font-size: 9px;
+    text-transform: uppercase;
+    color: #4aed88;
+    letter-spacing: 1px;
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+
+.userNameText {
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .leaveBtn {
     width: 100%;
     margin-top: 10px;

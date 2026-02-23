@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import ACTIONS from '../Actions';
 import Client from '../components/Client';
+import Avatar from 'react-avatar';
 import Editor from '../components/Editor';
 import Output from '../components/Output';
 import { initSocket } from '../socket';
@@ -213,6 +214,21 @@ const EditorPage = () => {
                             src="/logo.png"
                             alt="logo"
                         />
+                    </div>
+                    <div className="currentUserSection">
+                        <div className="currentUserInfo">
+                            <Avatar 
+                                name={location.state?.username} 
+                                size={40} 
+                                round="12px" 
+                                color="#4aed88"
+                                fgColor="#000"
+                            />
+                            <div className="userDetails">
+                                <span className="userLabel">Logged in as</span>
+                                <span className="userNameText">{location.state?.username}</span>
+                            </div>
+                        </div>
                     </div>
                     {/* Show connected status only when others are present */}
                     {isClientsLoading ? (
