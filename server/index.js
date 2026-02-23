@@ -113,7 +113,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on(ACTIONS.LANGUAGE_CHANGE, ({ roomId, language }) => {
-        io.to(roomId).emit(ACTIONS.LANGUAGE_CHANGE, { language });
+        socket.in(roomId).emit(ACTIONS.LANGUAGE_CHANGE, { language });
         
         // Save to DB (Debounced)
         if (saveLanguageDebounce[roomId]) clearTimeout(saveLanguageDebounce[roomId]);

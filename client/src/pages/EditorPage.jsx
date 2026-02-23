@@ -38,6 +38,7 @@ const EditorPage = () => {
     
     // But we need the language too. For now hardcode or add selector.
     const [language, setLanguage] = useState('javascript');
+    const languageRef = useRef('javascript');
     const [socketInitialized, setSocketInitialized] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isLangOpen, setIsLangOpen] = useState(false);
@@ -78,6 +79,7 @@ const EditorPage = () => {
 
     const handleLangChange = (lang) => {
         setLanguage(lang);
+        languageRef.current = lang;
         setIsLangOpen(false);
         socketRef.current.emit(ACTIONS.LANGUAGE_CHANGE, {
             roomId,
@@ -113,7 +115,7 @@ const EditorPage = () => {
                     socketRef.current.emit(ACTIONS.SYNC_CODE, {
                         code: codeRef.current,
                         socketId,
-                        language, 
+                        language: languageRef.current, 
                     });
                 }
             );
@@ -134,6 +136,7 @@ const EditorPage = () => {
             // Listening for language change
             socketRef.current.on(ACTIONS.LANGUAGE_CHANGE, ({ language }) => {
                 setLanguage(language);
+                languageRef.current = language;
             });
 
             // Listening for disconnected
