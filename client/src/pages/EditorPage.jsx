@@ -332,46 +332,48 @@ const EditorPage = () => {
                     <div className="aboutModal" onClick={(e) => e.stopPropagation()}>
                         <div className="smokyBackground"></div>
                         <button className="closeAboutBtn" onClick={() => setIsAboutOpen(false)}>&times;</button>
-                        <div className="aboutContent">
-                            <h2 className="aboutTitle">About Code Sync</h2>
-                            <p className="aboutDesc">
-                                A real-time collaborative code editor designed for pair programming and technical interviews. 
-                                Experience seamless synchronization with high-performance execution.
-                            </p>
-                            
-                            <div className="rulesSection">
-                                <h3 className="sectionTitle">Collaboration Rules</h3>
-                                <ul className="rulesList">
-                                    <li className="ruleItem">
-                                        <div className="ruleIcon">⌨️</div>
-                                        <div className="ruleText">
-                                            <strong>Simultaneous Editing:</strong> Multiple users can type at once. Remote cursors show you exactly where others are working.
-                                        </div>
-                                    </li>
-                                    <li className="ruleItem">
-                                        <div className="ruleIcon">🔒</div>
-                                        <div className="ruleText">
-                                            <strong>Run Protection:</strong> If a collaborator is typing, the "Run Code" button will be locked for others to prevent executing incomplete logic.
-                                        </div>
-                                    </li>
-                                    <li className="ruleItem">
-                                        <div className="ruleIcon">🖱️</div>
-                                        <div className="ruleText">
-                                            <strong>Activate Run:</strong> To unlock the "Run Code" button while someone is typing, you must <strong>click anywhere inside the editor</strong> to confirm you are focused on the current state.
-                                        </div>
-                                    </li>
-                                    <li className="ruleItem">
-                                        <div className="ruleIcon">🚀</div>
-                                        <div className="ruleText">
-                                            <strong>Instant Broadcast:</strong> Language changes and code updates are broadcasted to all room participants immediately.
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                            
-                            <div className="aboutFooter">
-                                <span className="versionTag">v1.2.0 Stable</span>
-                                <button className="btn gotItBtn" onClick={() => setIsAboutOpen(false)}>Got It!</button>
+                        <div className="aboutScrollArea">
+                            <div className="aboutContent">
+                                <h2 className="aboutTitle">About Code Sync</h2>
+                                <p className="aboutDesc">
+                                    A real-time collaborative code editor designed for pair programming and technical interviews. 
+                                    Experience seamless synchronization with high-performance execution.
+                                </p>
+                                
+                                <div className="rulesSection">
+                                    <h3 className="sectionTitle">Collaboration Rules</h3>
+                                    <ul className="rulesList">
+                                        <li className="ruleItem">
+                                            <div className="ruleIcon">⌨️</div>
+                                            <div className="ruleText">
+                                                <strong>Simultaneous Editing:</strong> Multiple users can type at once. Remote cursors show you exactly where others are working.
+                                            </div>
+                                        </li>
+                                        <li className="ruleItem">
+                                            <div className="ruleIcon">🔒</div>
+                                            <div className="ruleText">
+                                                <strong>Run Protection:</strong> If a collaborator is typing, the "Run Code" button will be locked for others to prevent executing incomplete logic.
+                                            </div>
+                                        </li>
+                                        <li className="ruleItem">
+                                            <div className="ruleIcon">🖱️</div>
+                                            <div className="ruleText">
+                                                <strong>Activate Run:</strong> To unlock the "Run Code" button while someone is typing, you must <strong>click anywhere inside the editor</strong> to confirm you are focused on the current state.
+                                            </div>
+                                        </li>
+                                        <li className="ruleItem">
+                                            <div className="ruleIcon">🚀</div>
+                                            <div className="ruleText">
+                                                <strong>Instant Broadcast:</strong> Language changes and code updates are broadcasted to all room participants immediately.
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                
+                                <div className="aboutFooter">
+                                    <span className="versionTag">v1.2.0 Stable</span>
+                                    <button className="btn gotItBtn" onClick={() => setIsAboutOpen(false)}>Got It!</button>
+                                </div>
                             </div>
                         </div>
                     </div>

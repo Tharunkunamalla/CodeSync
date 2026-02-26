@@ -770,20 +770,43 @@ footer h4 {
     justify-content: center;
     align-items: center;
     z-index: 5000;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
     animation: fadeIn 0.3s ease;
 }
 
 .aboutModal {
     position: relative;
     width: 600px;
-    max-width: 90%;
-    background: rgba(28, 30, 41, 0.75);
+    max-width: 100%;
+    max-height: 90vh;
+    background: rgba(28, 30, 41, 0.85);
     border: 1px solid rgba(255, 255, 255, 0.125);
     border-radius: 24px;
-    padding: 40px;
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
-    overflow: hidden;
+    overflow: hidden; /* Key: hide overflow here, let scrollArea handle it */
+    display: flex;
+    flex-direction: column;
+    margin: auto;
     animation: scaleUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.aboutScrollArea {
+    overflow-y: auto;
+    flex: 1;
+    padding: 40px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(74, 237, 136, 0.3) transparent;
+}
+
+.aboutScrollArea::-webkit-scrollbar {
+    width: 6px;
+}
+
+.aboutScrollArea::-webkit-scrollbar-thumb {
+    background: rgba(74, 237, 136, 0.3);
+    border-radius: 3px;
 }
 
 @keyframes scaleUp {
@@ -905,17 +928,24 @@ footer h4 {
     position: absolute;
     top: 20px;
     right: 20px;
-    background: none;
+    background: rgba(255, 255, 255, 0.1);
     border: none;
-    color: #71717a;
-    font-size: 28px;
+    color: #fff;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
     cursor: pointer;
-    transition: color 0.2s;
+    transition: all 0.2s;
     z-index: 10;
 }
 
 .closeAboutBtn:hover {
-    color: #fff;
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(90deg);
 }
 
 /* Run Button Loading/Remote Typing state */
@@ -923,4 +953,45 @@ footer h4 {
     background: #27272a;
     color: #71717a;
     box-shadow: none;
+}
+
+@media (max-width: 600px) {
+    .aboutModal {
+        border-radius: 16px;
+    }
+
+    .aboutScrollArea {
+        padding: 40px 20px 25px 20px;
+    }
+    
+    .aboutTitle {
+        font-size: 24px;
+    }
+    
+    .aboutDesc {
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+    
+    .sectionTitle {
+        font-size: 16px;
+        margin-bottom: 15px;
+    }
+    
+    .ruleItem {
+        padding: 10px;
+        gap: 10px;
+    }
+    
+    .ruleText {
+        font-size: 13px;
+    }
+    
+    .closeAboutBtn {
+        top: 10px;
+        right: 10px;
+        width: 32px;
+        height: 32px;
+        font-size: 20px;
+    }
 }
