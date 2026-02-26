@@ -286,7 +286,7 @@ const EditorPage = () => {
                         Copy ROOM ID
                     </button>
                 </div>
-                {isMobileMenuOpen && <div className="mobileMenuOverlay" onClick={() => setIsMobileMenuOpen(false)}></div>}
+                <div className={`mobileMenuOverlay ${isMobileMenuOpen ? 'show' : ''}`} onClick={() => setIsMobileMenuOpen(false)}></div>
                 
                 <div className="asideControls">
                     <div className="languageSelector" ref={langMenuRef}>

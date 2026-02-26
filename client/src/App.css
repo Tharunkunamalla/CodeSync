@@ -592,9 +592,17 @@ footer h4 {
         left: 0;
         right: 0;
         bottom: 0;
-        background: rgba(0, 0, 0, 0.5);
+        background: rgba(0, 0, 0, 0.6);
         z-index: 1999;
-        backdrop-filter: blur(2px);
+        backdrop-filter: blur(4px);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+
+    .mobileMenuOverlay.show {
+        opacity: 1;
+        visibility: visible;
     }
     
     .asideInner {
@@ -604,31 +612,28 @@ footer h4 {
         height: 100vh;
         width: 250px;
         background: #1c1e29;
-        display: none; /* Hidden by default */
+        display: flex; 
         flex-direction: column;
         align-items: flex-start;
         padding: 20px;
-        padding-bottom: 80px; /* Extra room at bottom */
+        padding-bottom: 80px;
         gap: 20px;
-        z-index: 2000; /* Higher than languageDropdown (1000) */
-        transition: none; /* Remove transition for display toggle */
+        z-index: 2000;
+        transform: translateX(-100%);
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         box-shadow: 2px 0 10px rgba(0,0,0,0.5);
         border-right: 1px solid #424242;
         overflow-y: auto;
+        visibility: hidden;
     }
     
     .asideInner.show {
-        display: flex;
-        animation: slideIn 0.3s forwards;
-    }
-    
-    @keyframes slideIn {
-        from { transform: translateX(-100%); }
-        to { transform: translateX(0); }
+        transform: translateX(0);
+        visibility: visible;
     }
     
     .closeMenuBtn {
-        display: block !important; /* Show on mobile */
+        display: block !important;
         position: absolute;
         top: 10px;
         right: 10px;
@@ -638,15 +643,10 @@ footer h4 {
         font-size: 28px;
         cursor: pointer;
         padding: 5px;
-        animation: slideOut 0.3s forwards;
+        transition: color 0.2s ease;
     }
     .closeMenuBtn:hover {
         color: #4aed88;
-    }
-
-    @keyframes slideOut {
-        from { transform: translateX(0%); }
-        to { transform: translateX(-100%); }
     }
 
     /* Adjust items inside drawer */
