@@ -1,5 +1,3 @@
-
-
 services:
   server:
     build: ./server
@@ -11,7 +9,7 @@ services:
     restart: always
 
   client:
-    build: 
+    build:
       context: ./client
       args:
         - VITE_PISTON_URL=/piston/api/v2/execute
