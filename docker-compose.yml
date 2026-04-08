@@ -13,7 +13,7 @@ services:
       args:
         - VITE_PISTON_URL=/piston/api/v2/execute
     ports:
-      - "5173:80"
+      - "8080:80"
     depends_on:
       - server
       - piston
@@ -22,8 +22,6 @@ services:
   piston:
     image: ghcr.io/engineer-man/piston:latest
     privileged: true
-    ports:
-      - "2000:2000"
     volumes:
       - piston-data:/piston
     tmpfs:
