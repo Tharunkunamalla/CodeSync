@@ -37,6 +37,8 @@ const EditorPage = () => {
   const [isRemoteTyping, setIsRemoteTyping] = useState(false);
   const langMenuRef = useRef(null);
   const remoteTypingTimeoutRef = useRef(null);
+  const [outputWidth, setOutputWidth] = useState(300);
+  const isDragging = useRef(false);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
