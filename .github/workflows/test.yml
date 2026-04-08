@@ -23,7 +23,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: 'npm'
 
       - name: Install Root Dependencies
@@ -33,7 +33,19 @@ jobs:
         run: npm ci --prefix server
 
       - name: Install Client Dependencies
-        run: npm ci --prefix client
+        run: npm install --prefix client --legacy-peer-deps
+
+      - name: Wait for MongoDB
+        run: |
+          for i in {1..10}; do
+            if nc -z localhost 27017; then
+              echo "MongoDB is up!"
+              exit 0
+            fi
+            echo "Waiting for MongoDB..."
+            sleep 2
+          done
+          exit 1
 
       - name: Run Linting
         run: npm run lint --prefix client || echo "Linting failed but continuing..."
@@ -43,9 +55,12 @@ jobs:
         env:
           MONGO_URI: mongodb://localhost:27017/test
           PORT: 5000
+          JWT_SECRET: test_secret
 
       - name: Run Client Tests
         run: npm test --prefix client
+        env:
+          NODE_ENV: test
 
       - name: Build Project
         run: |
@@ -59,6 +74,11 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
 
       - name: Deploy to Vercel
         uses: amondnet/vercel-action@v20
