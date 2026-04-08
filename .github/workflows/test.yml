@@ -1,24 +1,69 @@
-name: code-sync
+name: CI/CD Pipeline
 
 on:
+  push:
+    branches: [main, master]
   pull_request:
-    branches:
-      - main
+    branches: [main, master]
+
 jobs:
-  test:
+  test-and-build:
     runs-on: ubuntu-latest
-    container:
-      image: node:20
+
+    services:
+      mongodb:
+        image: mongo:6.0
+        ports:
+          - 27017:27017
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: 'npm'
 
-      - name: Install dependencies
-        run: npm install
+      - name: Install Root Dependencies
+        run: npm ci
 
-      - name: Run tests
-        run: npm test
-      - name: Build code
-        run: npm run build
+      - name: Install Server Dependencies
+        run: npm ci --prefix server
+
+      - name: Install Client Dependencies
+        run: npm ci --prefix client
+
+      - name: Run Linting
+        run: npm run lint --prefix client || echo "Linting failed but continuing..."
+
+      - name: Run Server Tests
+        run: npm test --prefix server
+        env:
+          MONGO_URI: mongodb://localhost:27017/test
+          PORT: 5000
+
+      - name: Run Client Tests
+        run: npm test --prefix client
+
+      - name: Build Project
+        run: |
+          npm run build --prefix client
+
+  deploy:
+    needs: test-and-build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v20
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod'

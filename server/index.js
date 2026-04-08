@@ -226,4 +226,8 @@ app.post('/api/execute', async (req, res) => {
     res.status(500).json({ message: "All execution engines are currently down. Please try again in a moment." });
 });
 
-server.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+if (require.main === module) {
+    server.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+}
+
+module.exports = { app, server };
