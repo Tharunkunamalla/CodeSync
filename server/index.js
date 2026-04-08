@@ -154,18 +154,20 @@ io.on('connection', (socket) => {
 
             // Flush changes to DB if there's a pending debounce and this is the last user (or just to be safe)
             // Actually, we should just save if we have pending changes.
-            if (dbDebounce[roomId]) {
-                clearTimeout(dbDebounce[roomId]);
-                delete dbDebounce[roomId];
-                if (roomState[roomId]?.code) {
-                    Room.findOneAndUpdate({ roomId }, { code: roomState[roomId].code }, { upsert: true }).catch(err => console.error(err));
+            if (mongoose.connection.readyState === 1) { // 1 = connected
+                if (dbDebounce[roomId]) {
+                    clearTimeout(dbDebounce[roomId]);
+                    delete dbDebounce[roomId];
+                    if (roomState[roomId]?.code) {
+                        Room.findOneAndUpdate({ roomId }, { code: roomState[roomId].code }, { upsert: true }).catch(err => console.error(err));
+                    }
                 }
-            }
-             if (saveLanguageDebounce[roomId]) {
-                clearTimeout(saveLanguageDebounce[roomId]);
-                delete saveLanguageDebounce[roomId];
-                if (roomState[roomId]?.language) {
-                    Room.findOneAndUpdate({ roomId }, { language: roomState[roomId].language }, { upsert: true }).catch(err => console.error(err));
+                if (saveLanguageDebounce[roomId]) {
+                    clearTimeout(saveLanguageDebounce[roomId]);
+                    delete saveLanguageDebounce[roomId];
+                    if (roomState[roomId]?.language) {
+                        Room.findOneAndUpdate({ roomId }, { language: roomState[roomId].language }, { upsert: true }).catch(err => console.error(err));
+                    }
                 }
             }
         });

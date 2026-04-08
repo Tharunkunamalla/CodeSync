@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+client_test_err.txt
+client_test_err_utf8.txt
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

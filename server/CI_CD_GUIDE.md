@@ -63,3 +63,16 @@ To enable the "CD" part, you need to add the following **Secrets** to your GitHu
 - `VERCEL_TOKEN`
 - `VERCEL_ORG_ID`
 - `VERCEL_PROJECT_ID`
+---
+
+## 5. Frequently Asked Questions (FAQ)
+
+### Why is my code deploying to Vercel even if GitHub Actions fails?
+By default, Vercel connects directly to your repository and triggers a deployment whenever you push code. It operates independently of GitHub Actions. 
+- **GitHub Actions**: Runs your tests and security checks.
+- **Vercel**: Builds and hosts your application.
+
+Even if a test fails in GitHub Actions (Red X), Vercel might still successfully build the app (Green Check in Vercel) if there are no syntax errors. To prevent Vercel from deploying failing code, you can configure "Required Status Checks" in your GitHub repository setttings.
+
+### How do I fix "MongoNotConnectedError" in CI?
+This happens if a test finishes and tries to save data while the database connection is closing. We have added `mongoose.connection.readyState` checks to prevent this.

@@ -25,12 +25,12 @@ describe('Socket.io Real-time Collaboration', () => {
     });
 
     it('should join a room and receive JOINED event', (done) => {
-        const testRoomId = 'test-room';
-        const testUsername = 'test-user';
+        const testRoomId = 'test-room-1';
+        const testUsername = 'test-user-1';
 
         clientSocket.emit(ACTIONS.JOIN, { roomId: testRoomId, username: testUsername });
 
-        clientSocket.on(ACTIONS.JOINED, (data) => {
+        clientSocket.once(ACTIONS.JOINED, (data) => {
             expect(data.username).toBe(testUsername);
             expect(data.clients.length).toBeGreaterThan(0);
             done();
@@ -38,25 +38,32 @@ describe('Socket.io Real-time Collaboration', () => {
     });
 
     it('should broadcast code changes to other clients', (done) => {
-        const testRoomId = 'test-room';
-        const testCode = 'console.log("hello")';
+        const testRoomId = 'test-room-2';
+        const testCode = 'console.log("hello test")';
+        const senderUsername = 'user1';
         
+        const clientSocket1 = new Client(`http://localhost:${PORT}`);
         const clientSocket2 = new Client(`http://localhost:${PORT}`);
         
-        clientSocket2.on('connect', () => {
-            clientSocket2.emit(ACTIONS.JOIN, { roomId: testRoomId, username: 'user2' });
+        clientSocket1.on('connect', () => {
+            clientSocket1.emit(ACTIONS.JOIN, { roomId: testRoomId, username: senderUsername });
             
-            clientSocket2.on(ACTIONS.JOINED, () => {
-                clientSocket.emit(ACTIONS.CODE_CHANGE, { roomId: testRoomId, code: testCode });
+            clientSocket1.once(ACTIONS.JOINED, () => {
+                clientSocket2.emit(ACTIONS.JOIN, { roomId: testRoomId, username: 'user2' });
+                
+                clientSocket2.once(ACTIONS.JOINED, () => {
+                    clientSocket1.emit(ACTIONS.CODE_CHANGE, { roomId: testRoomId, code: testCode });
+                });
             });
+        });
 
-            clientSocket2.on(ACTIONS.CODE_CHANGE, (data) => {
-                if (data.code === testCode) {
-                    expect(data.code).toBe(testCode);
-                    clientSocket2.close();
-                    done();
-                }
-            });
+        clientSocket2.on(ACTIONS.CODE_CHANGE, (data) => {
+            if (data.code === testCode) {
+                expect(data.username).toBe(senderUsername);
+                clientSocket1.close();
+                clientSocket2.close();
+                done();
+            }
         });
     });
 });

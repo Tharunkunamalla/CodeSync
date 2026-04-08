@@ -1,0 +1,147 @@
+﻿  console.log
+    [dotenv@17.2.4] injecting env (4) from .env -- tip: ≡ƒ¢á∩╕Å  run anywhere with `dotenvx run -- yourcommand`
+
+      at _log (node_modules/dotenv/lib/main.js:142:11)
+
+  console.log
+    socket connected 5FVDTRoCpzfsH44NAAAB
+
+      at Namespace.log (index.js:55:13)
+
+  console.log
+    MongoDB connected
+
+      at log (index.js:33:25)
+
+  console.log
+    socket connected 6F-cbWOwuiOV_v81AAAD
+
+      at Namespace.log (index.js:55:13)
+
+  console.error
+    [MongoNotConnectedError: Client must be connected before running operations] {
+      errorLabelSet: Set(0) {}
+    }
+
+    [0m [90m 159 |[39m                 [36mdelete[39m dbDebounce[roomId][33m;[39m
+     [90m 160 |[39m                 [36mif[39m (roomState[roomId][33m?[39m[33m.[39mcode) {
+    [31m[1m>[22m[39m[90m 161 |[39m                     [33mRoom[39m[33m.[39mfindOneAndUpdate({ roomId }[33m,[39m { code[33m:[39m roomState[roomId][33m.[39mcode }[33m,[39m { upsert[33m:[39m [36mtrue[39m })[33m.[39m[36mcatch[39m(err [33m=>[39m console[33m.[39merror(err))[33m;[39m
+     [90m     |[39m                                                                                                                                [31m[1m^[22m[39m
+     [90m 162 |[39m                 }
+     [90m 163 |[39m             }
+     [90m 164 |[39m              [36mif[39m (saveLanguageDebounce[roomId]) {[0m
+
+      at error (index.js:161:128)
+
+node.exe : FAIL 
+tests/socket.test.js
+At line:1 char:1
++ & "C:\Program 
+Files\nodejs/node.exe" 
+"C:\Program 
+Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo      
+        : NotSpecified  
+  : (FAIL tests/socke   
+ t.test.js:String) [    
+], RemoteException
+    + FullyQualifiedErr 
+   orId : NativeComman  
+  dError
+ 
+  Socket.io Real-time 
+Collaboration
+    ΓêÜ should join a 
+room and receive JOINED 
+event (2778 ms)
+    ├ù should broadcast 
+code changes to other 
+clients (78 ms)
+
+  ΓùÅ Socket.io 
+Real-time Collaboration 
+ΓÇ║ should broadcast 
+code changes to other 
+clients
+
+    expect(received).toB
+e(expected) // 
+Object.is equality
+
+    Expected: 
+"test-user"
+    Received: "user2"
+
+    [0m [90m 32 |[39m
+     [90m 33 |[39m    
+     clientSocket[33m.
+[39mon([33mACTIONS[39m
+[33m.[39m[33mJOINED[
+39m[33m,[39m (data) 
+[33m=>[39m {
+    [31m[1m>[22m[39m
+[90m 34 |[39m         
+    expect(data[33m.[3
+9musername)[33m.[39mto
+Be(testUsername)[33m;[
+39m
+     [90m    |[39m    
+                        
+       
+[31m[1m^[22m[39m
+     [90m 35 |[39m    
+         expect(data[33
+m.[39mclients[33m.[39
+mlength)[33m.[39mtoBeG
+reaterThan([35m0[39m)
+[33m;[39m
+     [90m 36 |[39m    
+         
+done()[33m;[39m
+     [90m 37 |[39m    
+     })[33m;[39m[0m
+
+      at Socket.toBe (te
+sts/socket.test.js:34:35
+)
+      at 
+Socket.Emitter.emit (nod
+e_modules/@socket.io/com
+ponent-emitter/lib/cjs/i
+ndex.js:143:20)
+      at 
+Socket.emitEvent (node_m
+odules/socket.io-client/
+build/cjs/socket.js:558:
+20)
+      at Socket.onevent 
+(node_modules/socket.io-
+client/build/cjs/socket.
+js:545:18)
+      at 
+Socket.onpacket (node_mo
+dules/socket.io-client/b
+uild/cjs/socket.js:513:2
+2)
+      at 
+Manager.Emitter.emit (no
+de_modules/@socket.io/co
+mponent-emitter/lib/cjs/
+index.js:143:20)
+      at node_modules/so
+cket.io-client/build/cjs
+/manager.js:246:18
+
+Test Suites: 1 failed, 
+1 total
+Tests:       1 failed, 
+1 passed, 2 total
+Snapshots:   0 total
+Time:        4.932 s, 
+estimated 5 s
+Ran all test suites 
+matching 
+tests/socket.test.js.
