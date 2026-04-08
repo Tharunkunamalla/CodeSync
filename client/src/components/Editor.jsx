@@ -26,7 +26,7 @@ const Editor = ({ socketRef, roomId, onCodeChange, onEditorClick, language }) =>
             if (onEditorClick) onEditorClick();
         });
         
-        editor.onDidChangeModelContent((event) => {
+        editor.onDidChangeModelContent(() => {
              if (isRemoteUpdate.current) return;
              const code = editor.getValue();
              const cursor = editor.getPosition();
@@ -113,7 +113,7 @@ const Editor = ({ socketRef, roomId, onCodeChange, onEditorClick, language }) =>
                         }
 
                         // Re-apply cursors
-                        Object.entries(lastCursorPositionRef.current).forEach(([socketId, { cursor, username }]) => {
+                        Object.entries(lastCursorPositionRef.current).forEach(([socketId, { cursor }]) => {
                              if (!userColors.current[socketId]) return;
                              
                              const model = editorRef.current.getModel();
@@ -228,7 +228,7 @@ const Editor = ({ socketRef, roomId, onCodeChange, onEditorClick, language }) =>
                 socket.off(ACTIONS.DISCONNECTED);
             }
         };
-    }, [socketRef.current]);
+    }, [socketRef, roomId, onCodeChange, onEditorClick]);
 
     return (
         <div style={{ height: '100%', width: '100%' }}>

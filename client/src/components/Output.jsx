@@ -67,7 +67,7 @@ const Output = ({ editorRef, language, isRemoteTyping }) => {
 };
 
 // Piston API helper
-export const executeCode = async (language, sourceCode) => {
+const executeCode = async (language, sourceCode) => {
     // Map moniker to Piston language
     const LANGUAGE_VERSIONS = {
         javascript: "18.15.0",

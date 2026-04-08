@@ -30,7 +30,7 @@ const EditorPage = () => {
   // But we need the language too. For now hardcode or add selector.
   const [language, setLanguage] = useState("javascript");
   const languageRef = useRef("javascript");
-  const [socketInitialized, setSocketInitialized] = useState(false);
+  // const [socketInitialized, setSocketInitialized] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLangOpen, setIsLangOpen] = useState(false);
   const [isAboutOpen, setIsAboutOpen] = useState(false);
@@ -81,13 +81,11 @@ const EditorPage = () => {
   useEffect(() => {
     const init = () => {
       socketRef.current = initSocket();
-      socketRef.current.on("connect_error", (err) => handleErrors(err));
-
-      function handleErrors(e) {
-        console.log("socket error", e);
+      socketRef.current.on("connect_error", (err) => {
+        console.log("socket error", err);
         toast.error("Socket connection failed, try again later.");
         setIsClientsLoading(false);
-      }
+      });
 
       socketRef.current.emit(ACTIONS.JOIN, {
         roomId,
@@ -113,7 +111,6 @@ const EditorPage = () => {
         if (socketId !== socketRef.current.id) {
           setIsRemoteTyping(true);
 
-          // Optional: Reset after 3 seconds of inactivity if they don't click
           if (remoteTypingTimeoutRef.current)
             clearTimeout(remoteTypingTimeoutRef.current);
           remoteTypingTimeoutRef.current = setTimeout(() => {
@@ -136,18 +133,21 @@ const EditorPage = () => {
         });
       });
 
-      setSocketInitialized(true);
+      // setSocketInitialized(true);
     };
-    init();
+    if (location.state?.username) {
+      init();
+    }
     return () => {
       if (socketRef.current) {
         socketRef.current.disconnect();
         socketRef.current.off(ACTIONS.JOINED);
         socketRef.current.off(ACTIONS.DISCONNECTED);
         socketRef.current.off(ACTIONS.LANGUAGE_CHANGE);
+        socketRef.current.off(ACTIONS.CODE_CHANGE);
       }
     };
-  }, []);
+  }, [roomId, location.state?.username]);
 
   async function copyRoomId() {
     try {
@@ -169,6 +169,33 @@ const EditorPage = () => {
       clearTimeout(remoteTypingTimeoutRef.current);
   };
 
+  const startResizing = () => {
+    isDragging.current = true;
+  };
+
+  const stopResizing = () => {
+    isDragging.current = false;
+  };
+
+  useEffect(() => {
+    const resize = (mouseMoveEvent) => {
+      if (isDragging.current) {
+        // Calculate new width from the right edge of the screen
+        const newWidth = window.innerWidth - mouseMoveEvent.clientX;
+        if (newWidth > 100 && newWidth < window.innerWidth * 0.8) {
+          setOutputWidth(newWidth);
+        }
+      }
+    };
+
+    window.addEventListener("mousemove", resize);
+    window.addEventListener("mouseup", stopResizing);
+    return () => {
+      window.removeEventListener("mousemove", resize);
+      window.removeEventListener("mouseup", stopResizing);
+    };
+  }, []);
+
   if (!location.state) {
     return <Navigate to="/" state={{roomId}} />;
   }
@@ -177,36 +204,6 @@ const EditorPage = () => {
   const uniqueClients = Array.from(new Set(clients.map((c) => c.username))).map(
     (username) => clients.find((c) => c.username === username),
   );
-
-  const [outputWidth, setOutputWidth] = useState(300);
-  const isDragging = useRef(false);
-
-  const startResizing = (mouseDownEvent) => {
-    isDragging.current = true;
-  };
-
-  const stopResizing = () => {
-    isDragging.current = false;
-  };
-
-  const resize = (mouseMoveEvent) => {
-    if (isDragging.current) {
-      // Calculate new width from the right edge of the screen
-      const newWidth = window.innerWidth - mouseMoveEvent.clientX;
-      if (newWidth > 100 && newWidth < window.innerWidth * 0.8) {
-        setOutputWidth(newWidth);
-      }
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener("mousemove", resize);
-    window.addEventListener("mouseup", stopResizing);
-    return () => {
-      window.removeEventListener("mousemove", resize);
-      window.removeEventListener("mouseup", stopResizing);
-    };
-  }, []);
 
   return (
     <div className="mainWrap">
